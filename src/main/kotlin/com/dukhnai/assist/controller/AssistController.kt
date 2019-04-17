@@ -1,20 +1,19 @@
 package com.dukhnai.assist.controller
 
+import com.dukhnai.assist.dto.Assist
+import com.dukhnai.assist.dto.Timetable
 import com.dukhnai.assist.payload.UploadFileResponse
-import com.dukhnai.assist.property.FileStorageProperties
 import com.dukhnai.assist.service.FileStorageService
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.nio.file.Files
+import java.nio.file.Paths
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -29,7 +28,7 @@ class AssistController(private val fileStorageService: FileStorageService) {
             .path(filename)
             .toUriString()
 
-         return UploadFileResponse(filename, fileDownloadUri, file.contentType, file.size)
+         return UploadFileResponse(filename, fileDownloadUri, file.contentType!!, file.size)
     }
 
     @GetMapping("/downloadFile/{filename:.+}")
@@ -41,5 +40,27 @@ class AssistController(private val fileStorageService: FileStorageService) {
             .contentType(MediaType.parseMediaType(contentType))
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"${resource.filename}\"")
             .body(resource)
+    }
+
+    @GetMapping( "/timetable-by-fio")
+    fun getTimetableByFio(
+        @RequestParam("first-name") firstName: String,
+        @RequestParam("last-name") lastName: String
+    ): Assist {
+        return getAssistByFio("$lastName $firstName")
+    }
+
+    private fun getAssistByFio(fio: String): Assist {
+        val objectMapper = ObjectMapper()
+        val initialData = Files.readAllBytes(Paths.get("data_file.json"))
+        val timetable = objectMapper.readValue(initialData, Timetable::class.java)
+
+        for (assist in timetable.assists) {
+            if (fio == assist.assistant) {
+                return assist
+            }
+        }
+
+        return Assist("No assistant found", emptyList())
     }
 }
