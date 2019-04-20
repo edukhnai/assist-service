@@ -1,6 +1,7 @@
 package com.dukhnai.assist.controller
 
 import com.dukhnai.assist.payload.UploadFileResponse
+import com.dukhnai.assist.service.AssistService
 import com.dukhnai.assist.service.FileStorageService
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -12,7 +13,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-class FileController(private val fileStorageService: FileStorageService) {
+class FileController(
+    private val fileStorageService: FileStorageService,
+    private val assistService: AssistService
+) {
     @PostMapping("/uploadFile")
     fun uploadFile(@RequestParam("file") file: MultipartFile): UploadFileResponse {
         val filename = fileStorageService.storeFile(file)
@@ -29,6 +33,8 @@ class FileController(private val fileStorageService: FileStorageService) {
     fun downloadFile(@PathVariable filename: String, request: HttpServletRequest): ResponseEntity<Resource> {
         val resource: Resource = fileStorageService.loadFile(filename)
         val contentType = request.servletContext.getMimeType(resource.file.absolutePath)
+
+        assistService.runAssistAlgorythm()
 
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(contentType))
