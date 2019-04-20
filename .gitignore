@@ -3,3 +3,5 @@ assist_service.iml
 build
 out
 .gradle
+data_file.json
+timetable.xlsx

@@ -12,11 +12,11 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 @Service
-class FileStorageService(private val fileStorageProperties: FileStorageProperties) {//???
+class FileStorageService(fileStorageProperties: FileStorageProperties) {
 
     private val fileLocation: Path = Paths.get(fileStorageProperties.uploadDir)
         .toAbsolutePath()
-        .normalize()//как добавить проперть в конструктор?
+        .normalize()
 
     init {
         Files.createDirectories(fileLocation)
