@@ -2,6 +2,7 @@ package com.dukhnai.assist.service
 
 import org.springframework.stereotype.Service
 import org.apache.logging.log4j.LogManager
+import java.io.File
 
 @Service
 class AssistService {
@@ -11,8 +12,9 @@ class AssistService {
     }
 
     fun runAssistAlgorythm() {
-        Runtime.getRuntime().exec("python assist.py")
+        val pb = ProcessBuilder("python", "assist.py")
+        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(File("log.txt")))
+        pb.start()
         logger.info("---------------------SCRIPT EXECUTED------------------------------")
-        Thread.sleep(1000)
     }
 }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.io.File
+import java.io.FileOutputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -22,6 +24,11 @@ class AssistController(val assistService: AssistService) {
         val objectMapper = ObjectMapper()
 
         assistService.runAssistAlgorythm()
+
+        val tempFile = File("data_file.json")
+        if (!tempFile.exists()) {
+            throw RuntimeException("File was not created")
+        }
 
         val resultData = Files.readAllBytes(Paths.get("data_file.json"))
         val timetable = objectMapper.readValue(resultData, Timetable::class.java)

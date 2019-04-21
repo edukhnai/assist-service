@@ -2,6 +2,8 @@
 assist_service.iml
 build
 out
+venv
 .gradle
 data_file.json
 timetable.xlsx
+log.txt
