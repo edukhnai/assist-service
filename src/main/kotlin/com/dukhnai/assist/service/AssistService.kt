@@ -12,6 +12,7 @@ class AssistService {
     }
 
     fun runAssistAlgorythm() {
+        Runtime.getRuntime().exec("pip install pandas")
         val pb = ProcessBuilder("python", "assist.py").inheritIO()
         //pb.redirectOutput(ProcessBuilder.Redirect.appendTo(File("log.txt")))
         //pb.redirectError(ProcessBuilder.Redirect.appendTo(File("error.txt")))
