@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service
 class AssistService {
 
     fun runAssistAlgorithm() {
-        ProcessBuilder("python", "assist.py").inheritIO().start()
+        ProcessBuilder("python3", "assist.py").inheritIO().start()
     }
 }
