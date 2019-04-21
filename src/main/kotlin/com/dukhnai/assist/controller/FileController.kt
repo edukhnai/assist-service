@@ -34,7 +34,7 @@ class FileController(
         val resource: Resource = fileStorageService.loadFile(filename)
         val contentType = request.servletContext.getMimeType(resource.file.absolutePath)
 
-        assistService.runAssistAlgorythm()
+        assistService.runAssistAlgorithm()
 
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(contentType))

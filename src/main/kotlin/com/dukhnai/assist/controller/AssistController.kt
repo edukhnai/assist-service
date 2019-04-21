@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.io.File
-import java.io.FileOutputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -23,7 +22,7 @@ class AssistController(val assistService: AssistService) {
         val fio = "$lastName $firstName"
         val objectMapper = ObjectMapper()
 
-        assistService.runAssistAlgorythm()
+        assistService.runAssistAlgorithm()
 
         val tempFile = File("data_file.json")
         if (!tempFile.exists()) {
