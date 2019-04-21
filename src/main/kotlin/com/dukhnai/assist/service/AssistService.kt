@@ -7,5 +7,6 @@ class AssistService {
 
     fun runAssistAlgorithm() {
         ProcessBuilder("python3", "assist.py").inheritIO().start()
+        //lalala
     }
 }
