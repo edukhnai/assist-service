@@ -12,9 +12,11 @@ class AssistService {
     }
 
     fun runAssistAlgorythm() {
-        val pb = ProcessBuilder("python", "assist.py")
-        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(File("log.txt")))
+        val pb = ProcessBuilder("python", "assist.py").inheritIO()
+        //pb.redirectOutput(ProcessBuilder.Redirect.appendTo(File("log.txt")))
+        //pb.redirectError(ProcessBuilder.Redirect.appendTo(File("error.txt")))
         pb.start()
         logger.info("---------------------SCRIPT EXECUTED------------------------------")
+        //logger.error(pb.)
     }
 }
