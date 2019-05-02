@@ -4,7 +4,6 @@ build
 out
 venv
 .gradle
-timetable.xlsx
 log.txt
 assist.py
 fin_alg.py

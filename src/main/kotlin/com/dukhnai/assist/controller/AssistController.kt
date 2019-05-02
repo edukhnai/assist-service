@@ -22,12 +22,12 @@ class AssistController(val assistService: AssistService) {
         val fio = "$lastName $firstName"
         val objectMapper = ObjectMapper()
 
-        assistService.runAssistAlgorithm()
-
-        val tempFile = File("data_file.json")
-        if (!tempFile.exists()) {
-            throw RuntimeException("File was not created")
-        }
+//        assistService.runAssistAlgorithm()
+//
+//        val tempFile = File("data_file.json")
+//        if (!tempFile.exists()) {
+//            throw RuntimeException("File was not created")
+//        }
 
         val resultData = Files.readAllBytes(Paths.get("data_file.json"))
         val timetable = objectMapper.readValue(resultData, Timetable::class.java)
