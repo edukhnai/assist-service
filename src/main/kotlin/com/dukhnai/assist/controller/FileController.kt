@@ -32,9 +32,12 @@ class FileController(
     @GetMapping("/downloadFile/{filename:.+}")
     fun downloadFile(@PathVariable filename: String, request: HttpServletRequest): ResponseEntity<Resource> {
         val resource: Resource = fileStorageService.loadFile(filename)
-        val contentType = request.servletContext.getMimeType(resource.file.absolutePath)
+        var contentType = request.servletContext.getMimeType(resource.file.absolutePath)
+        if (contentType == null) {
+            contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
 
-        assistService.runAssistAlgorithm()
+        //assistService.runAssistAlgorithm()
 
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(contentType))
