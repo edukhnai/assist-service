@@ -1,7 +1,6 @@
 package com.dukhnai.assist.controller
 
 import com.dukhnai.assist.payload.UploadFileResponse
-import com.dukhnai.assist.service.AssistService
 import com.dukhnai.assist.service.FileStorageService
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -14,8 +13,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 class FileController(
-    private val fileStorageService: FileStorageService,
-    private val assistService: AssistService
+    private val fileStorageService: FileStorageService
 ) {
     @PostMapping("/uploadFile")
     fun uploadFile(@RequestParam("file") file: MultipartFile): UploadFileResponse {
@@ -36,8 +34,6 @@ class FileController(
         if (contentType == null) {
             contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         }
-
-        //assistService.runAssistAlgorithm()
 
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(contentType))

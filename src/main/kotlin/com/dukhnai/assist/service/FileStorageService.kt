@@ -23,7 +23,7 @@ class FileStorageService(fileStorageProperties: FileStorageProperties) {
     }
 
     fun storeFile(file: MultipartFile): String {
-        val filename = StringUtils.cleanPath(file.originalFilename)
+        val filename = StringUtils.cleanPath(file.originalFilename!!)
         val targetLocation = fileLocation.resolve(filename)
         Files.copy(file.inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING)
         return filename
